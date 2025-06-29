@@ -1,0 +1,234 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Celebrity Pharm</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50">
+    <nav class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-white shadow-sm">
+        <div class="flex items-center space-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-black" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                    d="M21 5h-6.586l1.293-1.293-1.414-1.414L12 5.586 9.707 3.293 8.293 4.707 9.586 6H3v2h18V5zM5 10v1c0 3.866 3.134 7 7 7s7-3.134 7-7v-1H5zm7 9c-2.337 0-4.435-.947-5.978-2.469C6.116 17.589 8.942 19 12 19s5.884-1.411 5.978-1.469C16.435 18.053 14.337 19 12 19z" />
+            </svg>
+            <span class="font-semibold text-black">Celebrity Pharmacist.</span>
+        </div>
+
+        <!-- Center: Navigation Links -->
+        <div class="hidden md:flex space-x-6 text-sm text-gray-600">
+            <a href="#" class="hover:text-black">Categories</a>
+            <a href="#" class="hover:text-black">About</a>
+        </div>
+
+        <!-- Right side: Buttons and Avatar -->
+        <div class="flex items-center space-x-4">
+            <button class="bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm hover:bg-blue-700">
+                Donate
+            </button>
+
+            <!-- Search Icon -->
+            <button>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600 hover:text-black" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-4.35-4.35M11 18a7 7 0 100-14 7 7 0 000 14z" />
+                </svg>
+            </button>
+
+            <!-- Theme Toggle Icon (Sun) -->
+            <button>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-600 hover:text-black" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364-6.364l-1.414 1.414M6.05 17.95l-1.414-1.414M17.95 17.95l-1.414-1.414M6.05 6.05L4.636 7.464M12 8a4 4 0 100 8 4 4 0 000-8z" />
+                </svg>
+            </button>
+
+            <!-- Profile Avatar -->
+            <img src="{% static 'images/celeb_pharm.png' %}" alt="Profile" class="w-8 h-8 rounded-full object-cover">
+        </div>
+    </nav>
+
+    <main class="pt-24 p-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="https://cdn-icons-png.flaticon.com/512/3771/3771402.png" alt="Sleep"
+                    class="w-full h-40 object-cover">
+                <div class="p-4">
+                    <h2 class="text-lg font-semibold">The Science of Sleep: Optimizing Your Rest</h2>
+                    <p class="text-sm text-gray-600 mt-2">Explore the science behind sleep and learn how to optimize
+                        your rest for better health and productivity.</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="https://cdn-icons-png.flaticon.com/512/4359/4359951.png" alt="Mindful Eating"
+                    class="w-full h-40 object-cover">
+                <div class="p-4">
+                    <h2 class="text-lg font-semibold">Mindful Eating: A Guide to Healthier Habits</h2>
+                    <p class="text-sm text-gray-600 mt-2">Discover the principles of mindful eating and how it can
+                        transform your relationship with food.</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="https://cdn-icons-png.flaticon.com/512/2920/2920256.png" alt="Pharmacy School"
+                    class="w-full h-40 object-cover">
+                <div class="p-4">
+                    <h2 class="text-lg font-semibold">My Journey Through Pharmacy School</h2>
+                    <p class="text-sm text-gray-600 mt-2">A personal reflection on my experiences and challenges during
+                        pharmacy school.</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="https://cdn-icons-png.flaticon.com/512/3815/3815443.png" alt="Work-Life Balance"
+                    class="w-full h-40 object-cover">
+                <div class="p-4">
+                    <h2 class="text-lg font-semibold">Balancing Work and Life: My Personal Tips</h2>
+                    <p class="text-sm text-gray-600 mt-2">Practical advice on achieving a healthy work-life balance,
+                        based on my own experiences.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Pagination -->
+        <div class="flex justify-center mt-10">
+            <nav class="flex items-center space-x-2" aria-label="Pagination">
+                <a href="#"
+                    class="w-9 h-9 flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                </a>
+                <a href="#"
+                    class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-200 text-gray-900 font-medium shadow">
+                    1
+                </a>
+                <a href="#"
+                    class="w-9 h-9 flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-200">
+                    2
+                </a>
+                <a href="#"
+                    class="w-9 h-9 flex items-center justify-center rounded-full text-gray-500 hover:bg-gray-200">
+                    3
+                </a>
+                <a href="#"
+                    class="w-9 h-9 flex items-center justify-center rounded-full text-gray-600 hover:bg-gray-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                </a>
+            </nav>
+        </div>
+        <!-- Categories Highlight Section -->
+        <section class="mt-16">
+            <h2 class="text-xl font-semibold mb-6">Categories Highlight</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <img src="{% static 'images/health_tips.avif' %}" alt="Health Tips"
+                        class="w-full h-64 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-md font-semibold">Health Tips</h3>
+                        <p class="text-sm text-gray-600 mt-1">Practical advice and insights on health and wellness.</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <img src="{% static 'images/personal_life.avif' %}" alt="Personal Life"
+                        class="w-full h-64 object-cover">
+                    <div class="p-4">
+                        <h3 class="text-md font-semibold">Personal Life</h3>
+                        <p class="text-sm text-gray-600 mt-1">A glimpse into my life, experiences, and reflections.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Me Section with Newsletter -->
+        <section class="mt-16">
+            <h2 class="text-xl font-semibold mb-4">About Me</h2>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-start space-x-4 mb-6">
+                    <img src="{% static 'images/celeb_pharm.png' %}" alt="Dr. Clara Thompson"
+                        class="w-20 h-20 rounded-full object-cover border-2 border-gray-200">
+                    <div class="flex-1">
+                        <h3 class="text-lg font-semibold text-gray-900">Pharmacist Unique</h3>
+                        <p class="text-sm text-blue-700 mt-1">
+                            Celebrity Pharmacist | Health Advocate | Author
+                        </p>
+                        <p class="text-sm text-gray-700 mt-2">
+                            With over 5 years of experience, I'm dedicated to sharing my knowledge and passion for
+                            health
+                            and wellness.
+                        </p>
+                    </div>
+                    <button class="bg-gray-100 hover:bg-gray-200 text-gray-800 text-sm px-4 py-2 rounded-full">
+                        View Full ...
+                    </button>
+                </div>
+                <div class="mt-6">
+                    <h3 class="text-lg font-semibold mb-2">Newsletter Signup</h3>
+                    <p class="text-sm text-gray-600 mb-4">Join 150,000+ subscribers</p>
+                    <div class="space-y-4 max-w-md w-full">
+                        <input type="email" placeholder="Your email"
+                            class="w-full p-2 bg-gray-200 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                        <button
+                            class="w-3/4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
+                            Subscribe
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white py-6 text-center text-gray-600">
+        <div class="flex justify-center space-x-6 mb-4 flex-wrap">
+            <!-- Only show on mobile -->
+            <a href="#" class="block md:hidden hover:text-black">About</a>
+            <a href="#" class="block md:hidden hover:text-black">Categories</a>
+
+            <!-- Only show on desktop (md and up) -->
+            <a href="#" class="hidden md:block hover:text-black">RSS</a>
+        </div>
+
+
+        <div class="flex justify-center space-x-4 mb-4">
+            <a href="mailto:example@clarathompson.com">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                        d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                </svg>
+            </a>
+            <a href="https://twitter.com/clarathompson">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                        d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-2.717 0-4.92 2.203-4.92 4.917 0 .386.045.762.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.733-.666 1.585-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.030-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.396 0-.788-.023-1.175-.068 2.187 1.405 4.788 2.224 7.561 2.224 9.054 0 14.01-7.503 14.01-14.01 0-.213-.005-.426-.014-.637.962-.695 1.8-1.562 2.457-2.549z" />
+                </svg>
+            </a>
+            <a href="https://facebook.com/clarathompson">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                        d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.732 0 1.325-.593 1.325-1.325V1.325C24 .593 23.407 0 22.675 0z" />
+                </svg>
+            </a>
+            <a href="https://linkedin.com/in/clarathompson">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                        d="M19 0H5C2.239 0 0 2.239 0 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5V5c0-2.761-2.238-5-5-5zM7.188 17.582h-2.375V9.001h2.375v8.581zM5.781 7.781c-1.109 0-2.008-.899-2.008-2.008s.899-2.008 2.008-2.008 2.008.899 2.008 2.008-.899 2.008-2.008 2.008zM18 17.582h-2.375v-4.568c0-1.102-.02-2.521-1.534-2.521-1.534 0-1.769 1.198-1.769 2.437v4.652h-2.375V9.001h2.281v1.133h.032c.317-.602 1.092-1.534 2.243-1.534 2.399 0 2.842 1.578 2.842 3.635v5.347z" />
+                </svg>
+            </a>
+        </div>
+        <p class="text-sm">@{% now "Y" %} Celebrity Pharmacist. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
