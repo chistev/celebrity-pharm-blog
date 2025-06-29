@@ -1,0 +1,27 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block content %}
+<!-- Categories Highlight Section -->
+<section class="mt-1">
+    <h2 class="text-xl font-semibold mb-6">Categories</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+            <img src="{% static 'images/health_tips.avif' %}" alt="Health Tips" class="w-full h-64 object-cover">
+            <div class="p-4">
+                <h3 class="text-md font-semibold text-gray-900 dark:text-gray-100">Health Tips</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Practical advice and insights on health and
+                    wellness.</p>
+            </div>
+        </div>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+            <img src="{% static 'images/personal_life.avif' %}" alt="Personal Life" class="w-full h-64 object-cover">
+            <div class="p-4">
+                <h3 class="text-md font-semibold text-gray-900 dark:text-gray-100">Personal Life</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">A glimpse into my life, experiences, and
+                    reflections.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
