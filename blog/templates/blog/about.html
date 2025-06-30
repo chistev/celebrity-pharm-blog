@@ -1,0 +1,109 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="mt-1">
+    <h2 class="text-xl font-semibold mb-4">About Me</h2>
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <div class="flex items-start space-x-4 mb-6">
+            <img src="{% static 'images/celeb_pharm.png' %}" alt="Dr. Evelyn Hayes"
+                class="w-20 h-20 rounded-full object-cover border-2 border-gray-200 dark:border-gray-600">
+            <div class="flex-1">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Pharmacist Unique</h3>
+                <p class="text-sm text-blue-700 dark:text-blue-400 mt-1">
+                    Celebrity Pharmacist | Health Advocate | Author | 100K+ Subscribers
+                </p>
+                <p class="text-sm text-gray-700 dark:text-gray-300 mt-2">
+                    With over 5 years of experience, I'm dedicated to sharing my knowledge and passion for health and
+                    wellness. My mission is to empower individuals to take control of their health
+                    through accessible and reliable information. With a passion for wellness and a commitment to patient
+                    care, I have become a trusted voice in the health community, reaching thousands of
+                    subscribers through my blog and social media platforms. My work focuses on bridging the gap
+                    between complex medical information and everyday life, offering practical advice and insights on a
+                    wide range of health topics.
+                </p>
+
+                <div class="mt-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-gray-100">Stay Connected</h3>
+                    <div class="flex flex-wrap gap-6 justify-start">
+                        <!-- Email -->
+                        <div class="flex flex-col items-center space-y-2 text-center">
+                            <a href="#"
+                                class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+                                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                                </svg>
+                            </a>
+                            <span class="text-sm text-gray-700 dark:text-gray-300">Email</span>
+                        </div>
+
+                        <!-- Twitter -->
+                        <div class="flex flex-col items-center space-y-2 text-center">
+                            <a href="#"
+                                class="text-gray-600 dark:text-gray-300 hover:text-[#1DA1F2] dark:hover:text-[#1DA1F2]">
+                                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482A13.87 13.87 0 011.671 3.149a4.922 4.922 0 001.523 6.574 4.903 4.903 0 01-2.229-.616v.061a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 14-7.496 14-14V5.649c.975-.66 1.82-1.486 2.488-2.429l-.001-.001z" />
+                                </svg>
+                            </a>
+                            <span class="text-sm text-gray-700 dark:text-gray-300">Twitter</span>
+                        </div>
+
+                        <!-- Facebook -->
+                        <div class="flex flex-col items-center space-y-2 text-center">
+                            <a href="#"
+                                class="text-gray-600 dark:text-gray-300 hover:text-[#1877F2] dark:hover:text-[#1877F2]">
+                                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.732 0 1.325-.593 1.325-1.325V1.325C24 .593 23.407 0 22.675 0z" />
+                                </svg>
+                            </a>
+                            <span class="text-sm text-gray-700 dark:text-gray-300">Facebook</span>
+                        </div>
+
+                        <!-- WhatsApp -->
+                        <div class="flex flex-col items-center space-y-2 text-center">
+                            <a href="https://wa.me/yourphonenumber" target="_blank" rel="noopener noreferrer"
+                                class="text-gray-600 dark:text-gray-300 hover:text-green-500 dark:hover:text-green-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="w-8 h-8"
+                                    viewBox="0 0 16 16">
+                                    <path
+                                        d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232" />
+                                </svg>
+                            </a>
+                            <span class="text-sm text-gray-700 dark:text-gray-300">WhatsApp</span>
+                        </div>
+
+                        <!-- LinkedIn -->
+                        <div class="flex flex-col items-center space-y-2 text-center">
+                            <a href="#"
+                                class="text-gray-600 dark:text-gray-300 hover:text-[#0A66C2] dark:hover:text-[#0A66C2]">
+                                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 448 512"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M100.28 448H7.4V148.9h92.88zm-46.44-340.7C24.2 107.3 0 83 0 53.6 0 24.3 24.2 0 53.8 0s53.8 24.3 53.8 53.6c0 29.4-24.2 53.7-53.8 53.7zM447.9 448h-92.4V302.4c0-34.7-12.4-58.4-43.3-58.4-23.6 0-37.6 15.8-43.8 31.1-2.3 5.5-2.8 13.1-2.8 20.7V448h-92.4s1.2-241.3 0-266.1h92.4v37.7c12.3-19 34.4-46.1 83.7-46.1 61.1 0 106.9 39.9 106.9 125.5V448z" />
+                                </svg>
+
+                            </a>
+                            <span class="text-sm text-gray-700 dark:text-gray-300">LinkedIn</span>
+                        </div>
+
+                        <!-- YouTube -->
+                        <div class="flex flex-col items-center space-y-2 text-center">
+                            <a href="#"
+                                class="text-gray-600 dark:text-gray-300 hover:text-[#CD201F] dark:hover:text-[#CD201F]">
+                                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.377.505 9.377.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM10.079 15.555V8.445l5.975 3.555-5.975 3.555z" />
+                                </svg>
+                            </a>
+                            <span class="text-sm text-gray-700 dark:text-gray-300">YouTube</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
