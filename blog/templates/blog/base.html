@@ -16,7 +16,8 @@
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-    <nav class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-white dark:bg-gray-800 shadow-sm">
+    <nav
+        class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-white dark:bg-gray-800 shadow-sm">
         <div class="flex items-center space-x-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-black dark:text-white" fill="currentColor"
                 viewBox="0 0 24 24">
@@ -62,8 +63,12 @@
                 </svg>
             </button>
 
-            <!-- Profile Avatar -->
-            <img src="{% static 'images/celeb_pharm.png' %}" alt="Profile" class="w-8 h-8 rounded-full object-cover">
+            <!-- Profile Avatar linking to About page -->
+            <a href="{% url 'about' %}">
+                <img src="{% static 'images/celeb_pharm.png' %}" alt="Profile"
+                    class="w-8 h-8 rounded-full object-cover hover:ring-2 hover:ring-blue-500 transition">
+            </a>
+
         </div>
     </nav>
 

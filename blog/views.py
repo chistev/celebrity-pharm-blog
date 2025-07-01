@@ -8,3 +8,6 @@ def categories(request):
 
 def about(request):
     return render(request, 'blog/about.html')
+
+def post_detail(request):
+    return render(request, 'blog/post_detail.html') 
