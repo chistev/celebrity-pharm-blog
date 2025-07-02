@@ -11,3 +11,6 @@ def about(request):
 
 def post_detail(request):
     return render(request, 'blog/post_detail.html') 
+
+def category_detail(request):
+    return render(request, 'blog/category_detail.html')
