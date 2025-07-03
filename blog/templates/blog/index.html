@@ -4,11 +4,7 @@
 {% block content %}
 
 <!-- Blog Posts Grid with HTMX Pagination -->
-<div id="post-grid" 
-     hx-get="{% url 'index' %}" 
-     hx-trigger="load" 
-     hx-target="#post-grid" 
-     hx-swap="innerHTML">
+<div id="post-grid" hx-get="{% url 'index' %}" hx-trigger="load" hx-target="#post-grid" hx-swap="innerHTML">
 
     <!-- HTMX will replace this section with the partial template _post_list.html -->
 
@@ -30,22 +26,17 @@
     <div class="flex justify-center mt-10">
         <nav class="flex items-center space-x-2" aria-label="Pagination">
             {% if posts.has_previous %}
-            <a hx-get="?page={{ posts.previous_page_number }}"
-               hx-target="#post-grid"
-               hx-swap="innerHTML"
-               class="w-9 h-9 flex items-center justify-center rounded-full text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
+            <a hx-get="?page={{ posts.previous_page_number }}" hx-target="#post-grid" hx-swap="innerHTML"
+                class="w-9 h-9 flex items-center justify-center rounded-full text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
-                     stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                 </svg>
             </a>
             {% endif %}
 
             {% for num in posts.paginator.page_range %}
-            <a hx-get="?page={{ num }}"
-               hx-target="#post-grid"
-               hx-swap="innerHTML"
-               class="w-9 h-9 flex items-center justify-center rounded-full
+            <a hx-get="?page={{ num }}" hx-target="#post-grid" hx-swap="innerHTML" class="w-9 h-9 flex items-center justify-center rounded-full
                {% if posts.number == num %} bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow
                {% else %} text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 {% endif %}">
                 {{ num }}
@@ -53,13 +44,11 @@
             {% endfor %}
 
             {% if posts.has_next %}
-            <a hx-get="?page={{ posts.next_page_number }}"
-               hx-target="#post-grid"
-               hx-swap="innerHTML"
-               class="w-9 h-9 flex items-center justify-center rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
+            <a hx-get="?page={{ posts.next_page_number }}" hx-target="#post-grid" hx-swap="innerHTML"
+                class="w-9 h-9 flex items-center justify-center rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
-                     stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                 </svg>
             </a>
             {% endif %}
@@ -71,23 +60,17 @@
 <section class="mt-16">
     <h2 class="text-xl font-semibold mb-6">Categories Highlight</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <a href="{% url 'category_detail' %}" class="block">
+        {% for category in categories %}
+        <a href="{% url 'category_detail' slug=category.slug %}" class="block">
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-                <img src="{% static 'images/health_tips.avif' %}" alt="Health Tips" class="w-full h-64 object-cover">
+                <img src="{{ category.image.url }}" alt="{{ category.title }}" class="w-full h-64 object-cover">
                 <div class="p-4">
-                    <h3 class="text-md font-semibold text-gray-900 dark:text-gray-100">Health Tips</h3>
-                    <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">Practical advice and insights on health and wellness.</p>
+                    <h3 class="text-md font-semibold text-gray-900 dark:text-gray-100">{{ category.title }}</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">{{ category.description }}</p>
                 </div>
             </div>
         </a>
-
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
-            <img src="{% static 'images/personal_life.avif' %}" alt="Personal Life" class="w-full h-64 object-cover">
-            <div class="p-4">
-                <h3 class="text-md font-semibold text-gray-900 dark:text-gray-100">Personal Life</h3>
-                <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">A glimpse into my life, experiences, and reflections.</p>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 </section>
 
@@ -97,25 +80,28 @@
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
         <div class="flex items-start space-x-4 mb-6">
             <img src="{% static 'images/celeb_pharm.png' %}" alt="Dr. Clara Thompson"
-                 class="w-20 h-20 rounded-full object-cover border-2 border-gray-200 dark:border-gray-600">
+                class="w-20 h-20 rounded-full object-cover border-2 border-gray-200 dark:border-gray-600">
             <div class="flex-1">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Pharmacist Unique</h3>
-                <p class="text-sm text-blue-700 dark:text-blue-400 mt-1">Celebrity Pharmacist | Health Advocate | Author</p>
+                <p class="text-sm text-blue-700 dark:text-blue-400 mt-1">Celebrity Pharmacist | Health Advocate | Author
+                </p>
                 <p class="text-sm text-gray-700 dark:text-gray-300 mt-2">
                     With over 5 years of experience, I'm dedicated to sharing my knowledge and passion for
                     health and wellness.
                 </p>
             </div>
-            <button class="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-100 text-sm px-4 py-2 rounded-full">
+            <a href="{% url 'about' %}"
+                class="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-100 text-sm px-4 py-2 rounded-full">
                 View Full ...
-            </button>
+            </a>
+
         </div>
         <div class="mt-6">
             <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">Newsletter Signup</h3>
             <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">Join 150,000+ subscribers</p>
             <div class="space-y-4 max-w-md w-full">
                 <input type="email" placeholder="Your email"
-                       class="w-full p-2 bg-gray-200 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    class="w-full p-2 bg-gray-200 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <button
                     class="w-3/4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition duration-200">
                     Subscribe
