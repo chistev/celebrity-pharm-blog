@@ -1,0 +1,49 @@
+<div id="post-grid">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+        {% for post in posts %}
+        <a href="{% url 'post_detail' %}" class="block">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+                <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full h-40 object-cover">
+                <div class="p-4">
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ post.title }}</h2>
+                    <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">{{ post.excerpt }}</p>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination (HTMX-enabled) -->
+    <div class="flex justify-center mt-10">
+        <nav class="flex items-center space-x-2" aria-label="Pagination">
+            {% if posts.has_previous %}
+            <a hx-get="?page={{ posts.previous_page_number }}" hx-target="#post-grid" hx-swap="innerHTML"
+               class="w-9 h-9 flex items-center justify-center rounded-full text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+            </a>
+            {% endif %}
+
+            {% for num in posts.paginator.page_range %}
+            <a hx-get="?page={{ num }}" hx-target="#post-grid" hx-swap="innerHTML"
+               class="w-9 h-9 flex items-center justify-center rounded-full
+               {% if posts.number == num %} bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow
+               {% else %} text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 {% endif %} cursor-pointer">
+                {{ num }}
+            </a>
+            {% endfor %}
+
+            {% if posts.has_next %}
+            <a hx-get="?page={{ posts.next_page_number }}" hx-target="#post-grid" hx-swap="innerHTML"
+               class="w-9 h-9 flex items-center justify-center rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+            </a>
+            {% endif %}
+        </nav>
+    </div>
+</div>
