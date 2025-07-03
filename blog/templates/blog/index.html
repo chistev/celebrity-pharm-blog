@@ -3,86 +3,52 @@
 
 {% block content %}
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-    <a href="{% url 'post_detail' %}" class="block">
-<div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-        <img src="https://cdn-icons-png.flaticon.com/512/3771/3771402.png" alt="Sleep" class="w-full h-40 object-cover">
-        <div class="p-4">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">The Science of Sleep: Optimizing Your
-                Rest</h2>
-            <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">Explore the science behind sleep and learn how to
-                optimize
-                your rest for better health and productivity.</p>
+     {% for post in posts %}
+     <a href="{% url 'post_detail' %}" class="block">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full h-40 object-cover">
+            <div class="p-4">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ post.title }}</h2>
+                <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">{{ post.excerpt }}</p>
+            </div>
         </div>
-    </div>
     </a>
-    
-
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-        <img src="https://cdn-icons-png.flaticon.com/512/4359/4359951.png" alt="Mindful Eating"
-            class="w-full h-40 object-cover">
-        <div class="p-4">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Mindful Eating: A Guide to Healthier
-                Habits</h2>
-            <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">Discover the principles of mindful eating and how
-                it can
-                transform your relationship with food.</p>
-        </div>
-    </div>
-
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-        <img src="https://cdn-icons-png.flaticon.com/512/2920/2920256.png" alt="Pharmacy School"
-            class="w-full h-40 object-cover">
-        <div class="p-4">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">My Journey Through Pharmacy School</h2>
-            <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">A personal reflection on my experiences and
-                challenges during
-                pharmacy school.</p>
-        </div>
-    </div>
-
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-        <img src="https://cdn-icons-png.flaticon.com/512/3815/3815443.png" alt="Work-Life Balance"
-            class="w-full h-40 object-cover">
-        <div class="p-4">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Balancing Work and Life: My Personal Tips
-            </h2>
-            <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">Practical advice on achieving a healthy work-life
-                balance,
-                based on my own experiences.</p>
-        </div>
-    </div>
+    {% endfor %}
 </div>
-<!-- Pagination -->
+<!-- Dynamic Pagination -->
 <div class="flex justify-center mt-10">
     <nav class="flex items-center space-x-2" aria-label="Pagination">
-        <a href="#"
-            class="w-9 h-9 flex items-center justify-center rounded-full text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
+        {% if posts.has_previous %}
+        <a href="?page={{ posts.previous_page_number }}"
+           class="w-9 h-9 flex items-center justify-center rounded-full text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                 stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
             </svg>
         </a>
-        <a href="#"
-            class="w-9 h-9 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-medium shadow">
-            1
+        {% endif %}
+
+        {% for num in posts.paginator.page_range %}
+        <a href="?page={{ num }}"
+           class="w-9 h-9 flex items-center justify-center rounded-full
+           {% if posts.number == num %} bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow
+           {% else %} text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 {% endif %}">
+            {{ num }}
         </a>
-        <a href="#"
-            class="w-9 h-9 flex items-center justify-center rounded-full text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
-            2
-        </a>
-        <a href="#"
-            class="w-9 h-9 flex items-center justify-center rounded-full text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
-            3
-        </a>
-        <a href="#"
-            class="w-9 h-9 flex items-center justify-center rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
+        {% endfor %}
+
+        {% if posts.has_next %}
+        <a href="?page={{ posts.next_page_number }}"
+           class="w-9 h-9 flex items-center justify-center rounded-full text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                 stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
             </svg>
         </a>
+        {% endif %}
     </nav>
 </div>
+
 <!-- Categories Highlight Section -->
 <section class="mt-16">
     <h2 class="text-xl font-semibold mb-6">Categories Highlight</h2>
