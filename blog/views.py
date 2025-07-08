@@ -13,6 +13,8 @@ from django.core.signing import TimestampSigner, BadSignature, SignatureExpired
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 
+from django.db.models import Q
+
 signer = TimestampSigner()
 
 def blog_index(request: HttpRequest):
@@ -114,3 +116,17 @@ def post_detail(request):
 def category_detail(request, slug):
     category = get_object_or_404(Category, slug=slug)
     return render(request, 'blog/category_detail.html', {'category': category})
+
+def search(request):
+    query = request.GET.get('q', '')
+    posts = Post.objects.filter(
+        Q(title__icontains=query) | Q(excerpt__icontains=query)
+    )
+    paginator = Paginator(posts, 4)
+    page_number = request.GET.get('page')
+    posts = paginator.get_page(page_number)
+
+    return render(request, 'blog/search_results.html', {
+        'posts': posts,
+        'query': query
+    })
