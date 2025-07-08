@@ -110,8 +110,9 @@ def categories(request):
 def about(request):
     return render(request, 'blog/about.html')
 
-def post_detail(request):
-    return render(request, 'blog/post_detail.html') 
+def post_detail(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+    return render(request, 'blog/post_detail.html', {'post': post})
 
 def category_detail(request, slug):
     category = get_object_or_404(Category, slug=slug)
