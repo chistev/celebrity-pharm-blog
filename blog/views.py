@@ -116,7 +116,17 @@ def post_detail(request, slug):
 
 def category_detail(request, slug):
     category = get_object_or_404(Category, slug=slug)
-    return render(request, 'blog/category_detail.html', {'category': category})
+    posts = Post.objects.filter(category=category)
+    
+    paginator = Paginator(posts, 8)
+    page_number = request.GET.get('page')
+    posts = paginator.get_page(page_number)
+    
+    # Return the context to the template
+    return render(request, 'blog/category_detail.html', {
+        'category': category,
+        'posts': posts,
+    })
 
 def search(request):
     query = request.GET.get('q', '')

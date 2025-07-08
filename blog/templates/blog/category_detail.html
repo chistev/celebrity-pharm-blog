@@ -1,74 +1,24 @@
 {% extends "blog/base.html" %}
 {% load static %}
 {% block content %}
-<h1 class="text-2xl font-bold mb-6">Health Tips</h1>
+<h1 class="text-2xl font-bold mb-6">{{ category.title }}</h1>
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
+    {% for post in posts %}
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-        <img src="https://cdn-icons-png.flaticon.com/512/3771/3771402.png" alt="Sleep" class="w-full h-40 object-cover">
+        {% if post.image %}
+                <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full h-40 object-cover">
+            {% endif %}
         <div class="p-4">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">The Science of Sleep: Optimizing Your Rest</h2>
-            <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">Explore the science behind sleep and learn how to optimize your rest for better health and productivity.</p>
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">{{ post.title }}</h2>
+            <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">{{ post.excerpt }}</p>
         </div>
     </div>
-
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-        <img src="https://cdn-icons-png.flaticon.com/512/4359/4359951.png" alt="Mindful Eating" class="w-full h-40 object-cover">
-        <div class="p-4">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Mindful Eating: A Guide to Healthier Habits</h2>
-            <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">Discover the principles of mindful eating and how it can transform your relationship with food.</p>
-        </div>
+    {% empty %}
+    <p class="text-center text-gray-500 dark:text-gray-300">No posts available in this category yet.</p>
+    {% endfor %}
     </div>
 
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-        <img src="https://cdn-icons-png.flaticon.com/512/2920/2920256.png" alt="Pharmacy School" class="w-full h-40 object-cover">
-        <div class="p-4">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">My Journey Through Pharmacy School</h2>
-            <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">A personal reflection on my experiences and challenges during pharmacy school.</p>
-        </div>
-    </div>
-
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-        <img src="https://cdn-icons-png.flaticon.com/512/3815/3815443.png" alt="Work-Life Balance" class="w-full h-40 object-cover">
-        <div class="p-4">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Balancing Work and Life: My Personal Tips</h2>
-            <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">Practical advice on achieving a healthy work-life balance, based on my own experiences.</p>
-        </div>
-    </div>
-
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-        <img src="https://cdn-icons-png.flaticon.com/512/9442/9442080.png" alt="Medication Interactions" class="w-full h-40 object-cover">
-        <div class="p-4">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Understanding Medication Interactions</h2>
-            <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">Learn about potential interactions between different medications and how to avoid them.</p>
-        </div>
-    </div>
-
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-        <img src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png" alt="Role of Pharmacists" class="w-full h-40 object-cover">
-        <div class="p-4">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">The Role of Pharmacists in Patient Care</h2>
-            <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">An overview of the crucial role pharmacists play in ensuring patient safety and well-being.</p>
-        </div>
-    </div>
-
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-        <img src="https://cdn-icons-png.flaticon.com/512/3141/3141136.png" alt="Supplement Myths" class="w-full h-40 object-cover">
-        <div class="p-4">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Common Myths About Supplements</h2>
-            <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">Debunking common misconceptions about dietary supplements and their effectiveness.</p>
-        </div>
-    </div>
-
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden">
-        <img src="https://cdn-icons-png.flaticon.com/512/819/819814.png" alt="Travel Health" class="w-full h-40 object-cover">
-        <div class="p-4">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Staying Healthy During Travel</h2>
-            <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">Tips for maintaining your health and wellness while traveling, including medication management.</p>
-        </div>
-    </div>
-</div>
-<!-- Pagination -->
+    <!-- Pagination -->
 <div class="flex justify-center mt-10">
     <nav class="flex items-center space-x-2" aria-label="Pagination">
         <a href="#"
@@ -99,5 +49,4 @@
         </a>
     </nav>
 </div>
-
 {% endblock %}
