@@ -75,7 +75,7 @@
 </section>
 
 <!-- About Me Section with Newsletter -->
-<section class="mt-16">
+<section id="subscribe" tabindex="-1" class="mt-16">
     <h2 class="text-xl font-semibold mb-4">About Me</h2>
     <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
         <div class="flex items-start space-x-4 mb-6">
@@ -96,18 +96,22 @@
             </a>
 
         </div>
-        <div class="mt-6">
-            <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">Newsletter Signup</h3>
-            <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">Join 150,000+ subscribers</p>
-            <div class="space-y-4 max-w-md w-full">
-                <input type="email" placeholder="Your email"
-                    class="w-full p-2 bg-gray-200 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <button
-                    class="w-3/4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition duration-200">
-                    Subscribe
-                </button>
+        <form id="newsletter-form" onsubmit="submitForm(event)" class="w-full">
+            <div class="mt-6">
+                <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">Newsletter Signup</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-300 mb-4">Join 150,000+ subscribers</p>
+                <div class="space-y-4 max-w-md w-full">
+                    {% csrf_token %}
+                    <input type="email" name="email" required placeholder="Your email"
+                        class="w-full p-2 bg-gray-200 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button type="submit"
+                        class="w-3/4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition duration-200">
+                        Subscribe
+                    </button>
+                </div>
             </div>
-        </div>
+        </form>
+
     </div>
 </section>
 

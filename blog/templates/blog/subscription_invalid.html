@@ -1,0 +1,12 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<section class="mt-16 text-center">
+    <h2 class="text-xl font-semibold mb-6 text-red-600">Invalid Link</h2>
+    <p class="text-sm text-gray-600 dark:text-gray-300 max-w-md mx-auto mb-4">
+        The confirmation link appears to be invalid or corrupted.
+    </p>
+    <p class="text-sm">
+        Please <a href="{% url 'index' %}#subscribe" class="text-blue-600">try subscribing again</a>.
+    </p>
+</section>
+{% endblock %}

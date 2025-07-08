@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils import timezone
+
 
 class Post(models.Model):
     title = models.CharField(max_length=200)
@@ -18,3 +20,13 @@ class Category(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Subscriber(models.Model):
+    email = models.EmailField(unique=True)
+    is_confirmed = models.BooleanField(default=False)
+    confirmation_token = models.CharField(max_length=64, unique=True)
+    token_created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.email

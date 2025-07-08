@@ -1,5 +1,8 @@
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+load_dotenv()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -10,6 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-xgem=c1hxetp8ce_(s%f$rf50^e3ky%sk2vim^#*hm%996uy@*'
+BREVO_API_KEY = os.getenv("BREVO_API_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

@@ -1,0 +1,30 @@
+{% extends "blog/base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="mt-16 text-center">
+    <h2 class="text-xl font-semibold mb-6">Thank you for subscribing!</h2>
+    <p class="text-sm text-gray-600 dark:text-gray-300 max-w-md mx-auto mb-4">
+        You're now part of the Celebritypharm community. Stay tuned for the latest health tips, insights, and exclusive content delivered straight to your inbox.
+    </p>
+    <p class="text-sm text-blue-600 dark:text-blue-400">
+        Redirecting to the homepage in <span id="countdown">5</span> seconds...
+    </p>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    let countdown = 5;
+    const countdownEl = document.getElementById("countdown");
+
+    const interval = setInterval(() => {
+        countdown -= 1;
+        countdownEl.textContent = countdown;
+        if (countdown <= 0) {
+            clearInterval(interval);
+            window.location.href = "{% url 'index' %}";
+        }
+    }, 1000);
+</script>
+{% endblock %}
