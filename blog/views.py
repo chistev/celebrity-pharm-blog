@@ -22,12 +22,15 @@ def blog_index(request: HttpRequest):
     posts = paginator.get_page(page_number)
     categories = Category.objects.all()
 
+    subscriber_count = Subscriber.objects.filter(is_confirmed=True).count()
+
     if request.headers.get('HX-Request'):
         return render(request, 'blog/partials/post_list.html', {'posts': posts})
     else:
         return render(request, 'blog/index.html', {
             'posts': posts,
-            'categories': categories
+            'categories': categories,
+            'subscriber_count': subscriber_count  
         })
 
 
@@ -99,7 +102,8 @@ def subscription_success(request):
     return render(request, 'blog/subscription_success.html')
 
 def categories(request):
-    return render(request, 'blog/categories.html')
+    categories = Category.objects.all()
+    return render(request, 'blog/categories.html', {'categories': categories})
 
 def about(request):
     return render(request, 'blog/about.html')
