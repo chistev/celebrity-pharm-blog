@@ -11,4 +11,5 @@ urlpatterns = [
     path("confirm-subscription/", views.confirm_subscription, name="confirm_subscription"),
     path("subscription-success/", views.subscription_success, name="subscription_success"),
     path("search/", views.search, name="search"),
+    path('rss/', views.LatestPostsFeed(), name='rss_feed'),
 ]

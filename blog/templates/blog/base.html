@@ -6,6 +6,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Celebritypharm{% endblock %}</title>
+
+    <link rel="icon" href="{% static 'images/celeb_pharm.png' %}" type="image/png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -19,14 +21,38 @@
             height: 0;
             visibility: hidden;
             position: relative;
-            top: -96px; /* Adjust based on navbar height (pt-24 = 96px) */
+            top: -96px;
+            /* Adjust based on navbar height (pt-24 = 96px) */
         }
+
         /* Enable smooth scrolling for hash navigation */
         html {
             scroll-behavior: smooth;
         }
     </style>
-    {% block extra_head %}{% endblock %}
+    {% block extra_head %}
+    <meta name="description" content="{{ post.excerpt|default:'Stay updated with the latest posts from Celebritypharm blog.' }}" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Celebritypharm" />
+
+    <!-- Open Graph Meta Tags for Facebook, LinkedIn, etc. -->
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{{ post.title }}" />
+    <meta property="og:description" content="{{ post.excerpt|default:'Stay updated with the latest posts from Celebritypharm blog.' }}" />
+    <meta property="og:url" content="{{ request.build_absolute_uri }}" />
+    <meta property="og:image" content="{{ post.image.url|default:'/static/images/celeb_pharm.png' }}" />
+    <meta property="og:image:alt" content="{{ post.title }} image" />
+    <meta property="og:site_name" content="Celebritypharm" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{ post.title }}" />
+    <meta name="twitter:description" content="{{ post.excerpt|default:'Stay updated with the latest posts from Celebritypharm blog.' }}" />
+    <meta name="twitter:image" content="{{ post.image.url|default:'/static/images/default-image.jpg' }}" />
+    <meta name="twitter:site" content="@Celebritypharm" />
+    <meta name="twitter:creator" content="@Celebritypharm" />
+{% endblock %}
+
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
@@ -51,25 +77,25 @@
         <div class="flex items-center space-x-4">
 
             <!-- Search Icon -->
-<button id="search-toggle" class="transition-colors duration-200">
-    <svg xmlns="http://www.w3.org/2000/svg"
-         class="w-5 h-5 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white" fill="none"
-         viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M21 21l-4.35-4.35M11 18a7 7 0 100-14 7 7 0 000 14z"/>
-    </svg>
-</button>
+            <button id="search-toggle" class="transition-colors duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="w-5 h-5 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 21l-4.35-4.35M11 18a7 7 0 100-14 7 7 0 000 14z" />
+                </svg>
+            </button>
 
-<!-- Search Bar -->
-<div id="search-container"
-     class="overflow-hidden max-w-0 transition-all duration-300 ease-in-out flex items-center">
-    <!-- Search Form -->
-    <form id="search-form" action="{% url 'search' %}" method="get" class="flex items-center space-x-2">
-        <input type="text" name="q" placeholder="Search..."
-               class="ml-4 px-3 py-1 rounded-md text-sm bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring focus:border-blue-300"
-               value="{{ request.GET.q }}" id="search-input">
-    </form>
-</div>
+            <!-- Search Bar -->
+            <div id="search-container"
+                class="overflow-hidden max-w-0 transition-all duration-300 ease-in-out flex items-center">
+                <!-- Search Form -->
+                <form id="search-form" action="{% url 'search' %}" method="get" class="flex items-center space-x-2">
+                    <input type="text" name="q" placeholder="Search..."
+                        class="ml-4 px-3 py-1 rounded-md text-sm bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring focus:border-blue-300"
+                        value="{{ request.GET.q }}" id="search-input">
+                </form>
+            </div>
 
 
             <!-- Theme Toggle Button -->
@@ -102,10 +128,10 @@
         <div class="flex justify-center space-x-6 mb-4 flex-wrap">
             <!-- Only show on mobile -->
             <a href="{% url 'about' %}" class="block md:hidden hover:text-black dark:hover:text-white">About</a>
-            <a href="{% url 'categories' %}" class="block md:hidden hover:text-black dark:hover:text-white">Categories</a>
+            <a href="{% url 'categories' %}"
+                class="block md:hidden hover:text-black dark:hover:text-white">Categories</a>
 
-            <!-- Only show on desktop (md and up) -->
-            <a href="#" class="hidden md:block hover:text-black dark:hover:text-white">RSS</a>
+            <a href="{% url 'rss_feed' %}" class="hover:text-black dark:hover:text-white">RSS Feed</a>
         </div>
 
         <div class="flex justify-center space-x-4 mb-4">
@@ -147,49 +173,48 @@
 
     <script src="{% static 'js/theme-toggle.js' %}"></script>
     <!-- HTMX script -->
-<script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     {% block extra_scripts %}
-<script>
-function submitForm(event) {
-    event.preventDefault();
-    const form = document.getElementById("newsletter-form");
-    const button = form.querySelector("button[type='submit']");
-    const formData = new FormData(form);
+    <script>
+        function submitForm(event) {
+            event.preventDefault();
+            const form = document.getElementById("newsletter-form");
+            const button = form.querySelector("button[type='submit']");
+            const formData = new FormData(form);
 
-    // Disable and grey out the button
-    button.disabled = true;
-    button.classList.add("opacity-50", "cursor-not-allowed");
+            // Disable and grey out the button
+            button.disabled = true;
+            button.classList.add("opacity-50", "cursor-not-allowed");
 
-    fetch("{% url 'subscribe' %}", {
-        method: "POST",
-        headers: {
-            "X-CSRFToken": formData.get("csrfmiddlewaretoken")
-        },
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert("Check your email to confirm your subscription.");
-            form.reset();
-        } else {
-            alert(data.error || "Something went wrong.");
+            fetch("{% url 'subscribe' %}", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": formData.get("csrfmiddlewaretoken")
+                },
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Check your email to confirm your subscription.");
+                        form.reset();
+                    } else {
+                        alert(data.error || "Something went wrong.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Subscription error:", error);
+                    alert("An error occurred. Please try again later.");
+                })
+                .finally(() => {
+                    // Re-enable the button
+                    button.disabled = false;
+                    button.classList.remove("opacity-50", "cursor-not-allowed");
+                });
         }
-    })
-    .catch(error => {
-        console.error("Subscription error:", error);
-        alert("An error occurred. Please try again later.");
-    })
-    .finally(() => {
-        // Re-enable the button
-        button.disabled = false;
-        button.classList.remove("opacity-50", "cursor-not-allowed");
-    });
-}
-</script>
+    </script>
 
-
-{% endblock %}
+    {% endblock %}
 </body>
 
 </html>

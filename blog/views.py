@@ -15,10 +15,12 @@ from django.core.exceptions import ValidationError
 
 from django.db.models import Q
 
+from django.contrib.syndication.views import Feed
+
 signer = TimestampSigner()
 
 def blog_index(request: HttpRequest):
-    post_list = Post.objects.all()
+    post_list = Post.objects.all().order_by('-created_at')
     paginator = Paginator(post_list, 4)
     page_number = request.GET.get('page')
     posts = paginator.get_page(page_number)
@@ -145,3 +147,28 @@ def search(request):
         'posts': posts,
         'query': query
     })
+
+
+class LatestPostsFeed(Feed):
+    title = "Celebritypharm Blog - Latest Posts"
+    
+    # Link to the site or the RSS feed page
+    link = "/rss/"
+    
+    description = "Stay updated with the latest posts from Celebritypharm blog."
+
+    # Items to include in the feed (latest 10 posts)
+    def items(self):
+        return Post.objects.all().order_by('-id')[:10]
+
+    def item_title(self, item):
+        return item.title
+
+    def item_link(self, item):
+        return item.get_absolute_url()
+
+    def item_description(self, item):
+        return item.excerpt
+
+    def item_pubdate(self, item):
+        return item.created_at
