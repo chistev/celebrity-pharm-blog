@@ -4,6 +4,9 @@ from django.utils import timezone
 
 from django_ckeditor_5.fields import CKEditor5Field
 
+import uuid
+from datetime import timedelta
+
 class Post(models.Model):
     title = models.CharField(max_length=200)
     excerpt = models.TextField()
@@ -24,6 +27,16 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('post_detail', args=[self.slug])
     
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+        super().save(*args, **kwargs)
+        if is_new:
+            # Import here to avoid circular import issues
+            from .email_services import send_post_notification
+            
+            post_excerpt = self.excerpt  
+            send_post_notification(self.title, post_excerpt, self.slug)
+    
 
 class Category(models.Model):
     title = models.CharField(max_length=100)
@@ -42,3 +55,19 @@ class Subscriber(models.Model):
 
     def __str__(self):
         return self.email
+
+
+class UnsubscribeToken(models.Model):
+    email = models.EmailField()
+    token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    unsubscribed = models.BooleanField(default=False)
+
+    def is_expired(self):
+        return timezone.now() > self.created_at + timedelta(hours=24)
+
+    def __str__(self):
+        return f"{self.email} - {self.token}"
+    
+    class Meta:
+        verbose_name_plural = "Unsubscribed Users"

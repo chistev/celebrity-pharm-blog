@@ -1,0 +1,12 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<section class="mt-16 text-center">
+    <h2 class="text-xl font-semibold mb-6">You have already unsubscribed.</h2>
+    <p class="text-sm text-gray-600 dark:text-gray-300 max-w-md mx-auto mb-4">
+        You won't receive any more emails from us.
+    </p>
+    <p class="text-sm">
+        If you wish to subscribe again, please visit the <a href="{% url 'index' %}#subscribe" class="text-blue-600">subscription page</a>.
+    </p>
+</section>
+{% endblock %}

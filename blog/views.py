@@ -7,7 +7,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpRequest, JsonResponse
 from django.urls import reverse
 
-from .models import Post, Category, Subscriber
+from .models import Post, Category, Subscriber, UnsubscribeToken
 
 from django.core.signing import TimestampSigner, BadSignature, SignatureExpired
 from django.core.validators import validate_email
@@ -16,6 +16,8 @@ from django.core.exceptions import ValidationError
 from django.db.models import Q
 
 from django.contrib.syndication.views import Feed
+
+from django.views import View
 
 signer = TimestampSigner()
 
@@ -105,6 +107,43 @@ def confirm_subscription(request):
 def subscription_success(request):
     return render(request, 'blog/subscription_success.html')
 
+
+class HandleUnsubscribeView(View):
+    def get(self, request):
+        token_value = request.GET.get('token')
+        if not token_value:
+            return redirect('unsubscribe-status', status='invalid')
+
+        try:
+            token = UnsubscribeToken.objects.get(token=token_value)
+        except UnsubscribeToken.DoesNotExist:
+            return redirect('unsubscribe-status', status='invalid')
+
+        if token.is_expired():
+            return redirect('unsubscribe-status', status='expired')
+
+        if token.unsubscribed:
+            return redirect('unsubscribe-status', status='already')
+
+        # Delete subscriber and mark token unsubscribed
+        Subscriber.objects.filter(email=token.email).delete()
+        token.unsubscribed = True
+        token.save()
+
+        return redirect('unsubscribe-status', status='success')
+
+
+class UnsubscribeStatusView(View):
+    def get(self, request, status):
+        template_map = {
+            'invalid': 'blog/invalid.html',
+            'expired': 'blog/expired.html',
+            'already': 'blog/already.html',
+            'success': 'blog/success.html',
+        }
+        template_name = template_map.get(status, 'unsubscribe/invalid.html')
+        return render(request, template_name)
+    
 def categories(request):
     categories = Category.objects.all()
     return render(request, 'blog/categories.html', {'categories': categories})

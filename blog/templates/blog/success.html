@@ -1,0 +1,28 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<section class="mt-16 text-center">
+    <h2 class="text-xl font-semibold mb-6">You have successfully unsubscribed.</h2>
+    <p class="text-sm text-gray-600 dark:text-gray-300 max-w-md mx-auto mb-4">
+        We're sorry to see you go. You will no longer receive emails from us.
+    </p>
+    <p class="text-sm text-blue-600">
+        Redirecting to the homepage in <span id="countdown">5</span> seconds...
+    </p>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    let countdown = 5;
+    const countdownEl = document.getElementById("countdown");
+
+    const interval = setInterval(() => {
+        countdown -= 1;
+        countdownEl.textContent = countdown;
+        if (countdown <= 0) {
+            clearInterval(interval);
+            window.location.href = "{% url 'index' %}";
+        }
+    }, 1000);
+</script>
+{% endblock %}
