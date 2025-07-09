@@ -31,27 +31,30 @@
         }
     </style>
     {% block extra_head %}
-    <meta name="description" content="{{ post.excerpt|default:'Stay updated with the latest posts from Celebritypharm blog.' }}" />
+    <meta name="description"
+        content="{{ post.excerpt|default:'Stay updated with the latest posts from Celebritypharm blog.' }}" />
     <meta name="robots" content="index, follow" />
     <meta name="author" content="Celebritypharm" />
 
     <!-- Open Graph Meta Tags for Facebook, LinkedIn, etc. -->
     <meta property="og:type" content="article" />
     <meta property="og:title" content="{{ post.title }}" />
-    <meta property="og:description" content="{{ post.excerpt|default:'Stay updated with the latest posts from Celebritypharm blog.' }}" />
+    <meta property="og:description"
+        content="{{ post.excerpt|default:'Stay updated with the latest posts from Celebritypharm blog.' }}" />
     <meta property="og:url" content="{{ request.build_absolute_uri }}" />
     <meta property="og:image" content="{{ post.image.url|default:'/static/images/celeb_pharm.png' }}" />
     <meta property="og:image:alt" content="{{ post.title }} image" />
     <meta property="og:site_name" content="Celebritypharm" />
-    
+
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="{{ post.title }}" />
-    <meta name="twitter:description" content="{{ post.excerpt|default:'Stay updated with the latest posts from Celebritypharm blog.' }}" />
+    <meta name="twitter:description"
+        content="{{ post.excerpt|default:'Stay updated with the latest posts from Celebritypharm blog.' }}" />
     <meta name="twitter:image" content="{{ post.image.url|default:'/static/images/default-image.jpg' }}" />
     <meta name="twitter:site" content="@Celebritypharm" />
     <meta name="twitter:creator" content="@Celebritypharm" />
-{% endblock %}
+    {% endblock %}
 
 </head>
 
@@ -168,52 +171,14 @@
                 </svg>
             </a>
         </div>
-        <div class="text-sm">© 2025 Celebritypharm. All rights reserved.</div>
+        <div class="text-sm">© {% now "Y" %} Celebritypharm. All rights reserved.</div>
     </footer>
 
     <script src="{% static 'js/theme-toggle.js' %}"></script>
+    <script src="{% static 'js/subscribe.js' %}"></script>
     <!-- HTMX script -->
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     {% block extra_scripts %}
-    <script>
-        function submitForm(event) {
-            event.preventDefault();
-            const form = document.getElementById("newsletter-form");
-            const button = form.querySelector("button[type='submit']");
-            const formData = new FormData(form);
-
-            // Disable and grey out the button
-            button.disabled = true;
-            button.classList.add("opacity-50", "cursor-not-allowed");
-
-            fetch("{% url 'subscribe' %}", {
-                method: "POST",
-                headers: {
-                    "X-CSRFToken": formData.get("csrfmiddlewaretoken")
-                },
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert("Check your email to confirm your subscription.");
-                        form.reset();
-                    } else {
-                        alert(data.error || "Something went wrong.");
-                    }
-                })
-                .catch(error => {
-                    console.error("Subscription error:", error);
-                    alert("An error occurred. Please try again later.");
-                })
-                .finally(() => {
-                    // Re-enable the button
-                    button.disabled = false;
-                    button.classList.remove("opacity-50", "cursor-not-allowed");
-                });
-        }
-    </script>
-
     {% endblock %}
 </body>
 
