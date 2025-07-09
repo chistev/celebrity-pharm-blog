@@ -17,8 +17,8 @@ class Post(models.Model):
         related_name='posts',  # This is the reverse relation, to get all posts in a category
         on_delete=models.CASCADE,
     )
-    content = CKEditor5Field('Content', config_name='default')
-    created_at = models.DateTimeField(default=timezone.now) 
+    content = CKEditor5Field('Content', config_name='extends')
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
     def __str__(self):
@@ -46,6 +46,9 @@ class Category(models.Model):
 
     def __str__(self):
         return self.title
+    
+    class Meta:
+        verbose_name_plural = "Categories"
 
 class Subscriber(models.Model):
     email = models.EmailField(unique=True)
