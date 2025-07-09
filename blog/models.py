@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 
+from django_ckeditor_5.fields import CKEditor5Field
+
 class Post(models.Model):
     title = models.CharField(max_length=200)
     excerpt = models.TextField()
@@ -11,6 +13,8 @@ class Post(models.Model):
         related_name='posts',  # This is the reverse relation, to get all posts in a category
         on_delete=models.CASCADE,
     )
+    content = CKEditor5Field('Content', config_name='default')
+
 
     def __str__(self):
         return self.title

@@ -12,11 +12,25 @@
             darkMode: 'class'
         }
     </script>
+    <style>
+        /* Offset anchor to account for fixed navbar */
+        #post-grid-anchor {
+            display: block;
+            height: 0;
+            visibility: hidden;
+            position: relative;
+            top: -96px; /* Adjust based on navbar height (pt-24 = 96px) */
+        }
+        /* Enable smooth scrolling for hash navigation */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
     {% block extra_head %}{% endblock %}
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-    <nav
+    <nav id="navbar"
         class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-white dark:bg-gray-800 shadow-sm">
         <div class="flex items-center space-x-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-black dark:text-white" fill="currentColor"
@@ -88,7 +102,7 @@
         <div class="flex justify-center space-x-6 mb-4 flex-wrap">
             <!-- Only show on mobile -->
             <a href="{% url 'about' %}" class="block md:hidden hover:text-black dark:hover:text-white">About</a>
-            <a href="#" class="block md:hidden hover:text-black dark:hover:text-white">Categories</a>
+            <a href="{% url 'categories' %}" class="block md:hidden hover:text-black dark:hover:text-white">Categories</a>
 
             <!-- Only show on desktop (md and up) -->
             <a href="#" class="hidden md:block hover:text-black dark:hover:text-white">RSS</a>
@@ -173,6 +187,7 @@ function submitForm(event) {
     });
 }
 </script>
+
 
 {% endblock %}
 </body>

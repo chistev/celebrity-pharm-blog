@@ -112,7 +112,11 @@ def about(request):
 
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug)
-    return render(request, 'blog/post_detail.html', {'post': post})
+
+     # Fetch related posts from the same category, excluding the current post
+    related_posts = Post.objects.filter(category=post.category).exclude(id=post.id)[:3]
+    
+    return render(request, 'blog/post_detail.html', {'post': post, 'related_posts': related_posts,})
 
 def category_detail(request, slug):
     category = get_object_or_404(Category, slug=slug)

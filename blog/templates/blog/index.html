@@ -3,9 +3,10 @@
 {% load humanize %} 
 
 {% block content %}
+<a id="post-grid-anchor" class="block"></a>
 
 <!-- Blog Posts Grid with HTMX Pagination -->
-<div id="post-grid" hx-get="{% url 'index' %}" hx-trigger="load" hx-target="#post-grid" hx-swap="innerHTML">
+<div id="post-grid" hx-get="{% url 'index' %}" hx-trigger="load" hx-target="#post-grid" hx-swap="innerHTML" hx-on="htmx:afterSwap: scrollToTop">
 
     <!-- HTMX will replace this section with the partial template _post_list.html -->
 
