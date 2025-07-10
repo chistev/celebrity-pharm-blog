@@ -8,6 +8,10 @@ import uuid
 from datetime import timedelta
 
 class Post(models.Model):
+    STATUS_CHOICES = (
+        ('draft', 'Draft'),
+        ('published', 'Published'),
+    )
     title = models.CharField(max_length=200)
     excerpt = models.TextField()
     image = models.ImageField(upload_to='post_images/')
@@ -19,6 +23,7 @@ class Post(models.Model):
     )
     content = CKEditor5Field('Content', config_name='extends')
     created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='draft')
 
 
     def __str__(self):
@@ -30,12 +35,10 @@ class Post(models.Model):
     def save(self, *args, **kwargs):
         is_new = self.pk is None
         super().save(*args, **kwargs)
-        if is_new:
+        if is_new and self.status == 'published':
             # Import here to avoid circular import issues
             from .email_services import send_post_notification
-            
-            post_excerpt = self.excerpt  
-            send_post_notification(self.title, post_excerpt, self.slug)
+            send_post_notification(self.title, self.excerpt, self.slug)
     
 
 class Category(models.Model):

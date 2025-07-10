@@ -22,7 +22,7 @@ from django.views import View
 signer = TimestampSigner()
 
 def blog_index(request: HttpRequest):
-    post_list = Post.objects.all().order_by('-created_at')
+    post_list = Post.objects.filter(status='published').order_by('-created_at')
     paginator = Paginator(post_list, 4)
     page_number = request.GET.get('page')
     posts = paginator.get_page(page_number)
@@ -38,7 +38,6 @@ def blog_index(request: HttpRequest):
             'categories': categories,
             'subscriber_count': subscriber_count  
         })
-
 
 def subscribe_view(request):
     if request.method == "POST":
@@ -107,7 +106,6 @@ def confirm_subscription(request):
 def subscription_success(request):
     return render(request, 'blog/subscription_success.html')
 
-
 class HandleUnsubscribeView(View):
     def get(self, request):
         token_value = request.GET.get('token')
@@ -132,7 +130,6 @@ class HandleUnsubscribeView(View):
 
         return redirect('unsubscribe-status', status='success')
 
-
 class UnsubscribeStatusView(View):
     def get(self, request, status):
         template_map = {
@@ -152,7 +149,7 @@ def about(request):
     return render(request, 'blog/about.html')
 
 def post_detail(request, slug):
-    post = get_object_or_404(Post, slug=slug)
+    post = get_object_or_404(Post, slug=slug, status='published')
 
      # Fetch related posts from the same category, excluding the current post
     related_posts = Post.objects.filter(category=post.category).exclude(id=post.id)[:3]

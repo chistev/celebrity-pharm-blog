@@ -3,11 +3,11 @@ from .models import Post, Category, Subscriber, UnsubscribeToken
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category', 'created_at')
-    prepopulated_fields = {'slug': ('title',)}  # Automatically fill slug from title
+    list_display = ('title', 'category', 'status', 'created_at')
+    list_filter = ('category', 'status', 'created_at')
     search_fields = ('title', 'content')
     list_filter = ('category', 'created_at')
-    readonly_fields = ('created_at',)  # Optional: Show but prevent editing
+    readonly_fields = ('created_at',)
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
