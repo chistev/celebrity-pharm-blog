@@ -153,8 +153,11 @@ def post_detail(request, slug):
 
      # Fetch related posts from the same category, excluding the current post
     related_posts = Post.objects.filter(category=post.category).exclude(id=post.id)[:3]
+
+    subscriber_count = Subscriber.objects.filter(is_confirmed=True).count()
     
-    return render(request, 'blog/post_detail.html', {'post': post, 'related_posts': related_posts,})
+    return render(request, 'blog/post_detail.html', {'post': post, 'related_posts': related_posts,
+                                                      'subscriber_count': subscriber_count })
 
 def category_detail(request, slug):
     category = get_object_or_404(Category, slug=slug)

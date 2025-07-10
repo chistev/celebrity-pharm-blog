@@ -1,0 +1,42 @@
+{% load static %}
+{% load humanize %} 
+
+<section id="subscribe" tabindex="-1" class="mt-16">
+    <h2 class="text-xl font-semibold mb-4">About Me</h2>
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+        <div class="flex items-start space-x-4 mb-6">
+            <img src="{% static 'images/celeb_pharm.png' %}" alt="Celebritypharm"
+                class="w-20 h-20 rounded-full object-cover border-2 border-gray-200 dark:border-gray-600">
+            <div class="flex-1">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Pharmacist Unique</h3>
+                <p class="text-sm text-blue-700 dark:text-blue-400 mt-1">Celebrity Pharmacist | Health Advocate | Author
+                </p>
+                <p class="text-sm text-gray-700 dark:text-gray-300 mt-2">
+                    With over 5 years of experience, I'm dedicated to sharing my knowledge and passion for
+                    health and wellness.
+                </p>
+            </div>
+            <a href="{% url 'about' %}"
+                class="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-100 text-sm px-4 py-2 rounded-full">
+                View Full ...
+            </a>
+
+        </div>
+        <form id="newsletter-form" onsubmit="submitForm(event)" class="w-full">
+            <div class="mt-6">
+                <h3 class="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">Newsletter Signup</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-300 mb-4"> Join {{ subscriber_count|intcomma }} subscribers</p>
+                <div class="space-y-4 max-w-md w-full">
+                    {% csrf_token %}
+                    <input type="email" name="email" required placeholder="Your email"
+                        class="w-full p-2 bg-gray-200 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button type="submit"
+                        class="w-3/4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition duration-200">
+                        Subscribe
+                    </button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</section>

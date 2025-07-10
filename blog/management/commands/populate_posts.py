@@ -190,6 +190,7 @@ class Command(BaseCommand):
                 slug=slug,
                 category=post_data['category'],  # Assigning the category object here
                 content=post_data['content'],  # Adding content here
+                status='published',
             )
 
             # Add image for the post
