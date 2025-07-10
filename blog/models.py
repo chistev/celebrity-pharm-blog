@@ -7,13 +7,15 @@ from django_ckeditor_5.fields import CKEditor5Field
 import uuid
 from datetime import timedelta
 
+from django.core.exceptions import ValidationError
+
 class Post(models.Model):
     STATUS_CHOICES = (
         ('draft', 'Draft'),
         ('published', 'Published'),
     )
     title = models.CharField(max_length=200)
-    excerpt = models.TextField()
+    excerpt = models.TextField(help_text="Max 300 characters.")
     image = models.ImageField(upload_to='post_images/')
     slug = models.SlugField(unique=True)
     category = models.ForeignKey(
@@ -32,7 +34,14 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('post_detail', args=[self.slug])
     
+    def clean(self):
+        super().clean()
+        if len(self.excerpt) > 300:
+            raise ValidationError({'excerpt': 'Excerpt cannot be longer than 300 characters.'})
+
+    
     def save(self, *args, **kwargs):
+        self.full_clean()
         is_new = self.pk is None
         super().save(*args, **kwargs)
         if is_new and self.status == 'published':

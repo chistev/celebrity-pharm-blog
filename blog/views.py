@@ -195,7 +195,7 @@ class LatestPostsFeed(Feed):
 
     # Items to include in the feed (latest 10 posts)
     def items(self):
-        return Post.objects.all().order_by('-id')[:10]
+        return Post.objects.filter(status='published').order_by('-created_at')[:10]
 
     def item_title(self, item):
         return item.title
