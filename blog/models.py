@@ -17,7 +17,7 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     excerpt = models.TextField(help_text="Max 300 characters.")
     image = models.ImageField(upload_to='post_images/')
-    slug = models.SlugField(unique=True)
+    slug = models.SlugField(max_length=100, unique=True)
     category = models.ForeignKey(
         'Category', 
         related_name='posts',  # This is the reverse relation, to get all posts in a category
