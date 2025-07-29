@@ -1,7 +1,10 @@
+import json
+import unittest
+from django.conf import settings
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
-from blog.models import Post, Category
+from blog.models import Post, Category, Subscriber
 from django.utils import timezone
 
 class BlogIndexViewTests(TestCase):
@@ -117,6 +120,83 @@ class BlogIndexViewTests(TestCase):
         self.assertIn('posts', response.context)
         self.assertEqual(len(response.context['posts']), 0)
         
-        # Assert the response content indicates no posts (if your template handles this)
-        # Adjust this based on your template's empty state rendering
-        self.assertContains(response, "")  # Modify based on actual template content
+        self.assertContains(response, "")
+
+class SubscribeViewTests(TestCase):
+    def setUp(self):
+        # Set up test client
+        self.client = Client()
+        
+        # Mock settings.BREVO_API_KEY
+        self.brevo_api_key = "test-api-key"
+        settings.BREVO_API_KEY = self.brevo_api_key
+        
+        # Mock requests.post to avoid real API calls
+        self.patcher = unittest.mock.patch('requests.post')
+        self.mock_post = self.patcher.start()
+        self.mock_post.return_value.status_code = 200
+        
+    def tearDown(self):
+        # Stop the patcher
+        self.patcher.stop()
+    
+    def test_subscribe_view_unhappy_path_invalid_email(self):
+        """
+        Unhappy Path: Test a POST request with an invalid email.
+        """
+        invalid_email = "invalid-email"
+        
+        # Simulate a POST request with an invalid email
+        response = self.client.post(
+            reverse('subscribe'),
+            data={'email': invalid_email},
+            content_type='application/x-www-form-urlencoded'
+        )
+        
+        # Assert response status code and error message
+        self.assertEqual(response.status_code, 200)
+        response_data = json.loads(response.content)
+        self.assertEqual(response_data, {"success": False, "error": "Invalid email address."})
+        
+        # Assert no API call was made
+        self.mock_post.assert_not_called()
+        
+        # Assert no subscriber was created
+        self.assertFalse(Subscriber.objects.filter(email=invalid_email).exists())
+
+    def test_subscribe_view_edge_case_empty_email(self):
+        """
+        Edge Case: Test a POST request with an empty email field.
+        """
+        # Simulate a POST request with an empty email
+        response = self.client.post(
+            reverse('subscribe'),
+            data={'email': ''},
+            content_type='application/x-www-form-urlencoded'
+        )
+        
+        # Assert response status code and error message
+        self.assertEqual(response.status_code, 200)
+        response_data = json.loads(response.content)
+        self.assertEqual(response_data, {"success": False, "error": "Invalid email address."})
+        
+        # Assert no API call was made
+        self.mock_post.assert_not_called()
+        
+        # Assert no subscriber was created
+        self.assertFalse(Subscriber.objects.filter(email='').exists())
+
+    def test_subscribe_view_edge_case_non_post_request(self):
+        """
+        Edge Case: Test a non-POST request (e.g., GET).
+        """
+        # Simulate a GET request
+        response = self.client.get(reverse('subscribe'))
+        
+        # Assert response status code and error message
+        self.assertEqual(response.status_code, 200)
+        response_data = json.loads(response.content)
+        self.assertEqual(response_data, {"success": False, "error": "Invalid request."})
+        
+        # Assert no API call was made
+        self.mock_post.assert_not_called()

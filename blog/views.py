@@ -43,23 +43,19 @@ def subscribe_view(request):
     if request.method == "POST":
         email = request.POST.get("email", "").strip()
 
-        # Validate format
         try:
             validate_email(email)
         except ValidationError:
             return JsonResponse({"success": False, "error": "Invalid email address."})
 
-        # Check if already subscribed
         if Subscriber.objects.filter(email=email, is_confirmed=True).exists():
             return JsonResponse({"success": False, "error": "Email already subscribed."})
 
-        # Generate signed token
         token = signer.sign(email)
         confirm_url = request.build_absolute_uri(
             reverse("confirm_subscription") + f"?token={token}"
         )
 
-        # Send confirmation email via Brevo
         brevo_api_key = settings.BREVO_API_KEY
         requests.post(
             'https://api.brevo.com/v3/smtp/email',
@@ -69,7 +65,7 @@ def subscribe_view(request):
                 'content-type': 'application/json',
             },
             json={
-                "sender": {"name": "Celebritypharm", "email": "stephen@rxjourney.net"},
+                "sender": {"name": "Celebritypharm", "email": "unique@celebritypharm.com"},
                 "to": [{"email": email}],
                 "subject": "Confirm your subscription",
                 "htmlContent": f"""
