@@ -157,13 +157,12 @@ def post_detail(request, slug):
 
 def category_detail(request, slug):
     category = get_object_or_404(Category, slug=slug)
-    posts = Post.objects.filter(category=category)
+    posts = Post.objects.filter(category=category, status='published').order_by('-created_at')
     
     paginator = Paginator(posts, 8)
     page_number = request.GET.get('page')
     posts = paginator.get_page(page_number)
     
-    # Return the context to the template
     return render(request, 'blog/category_detail.html', {
         'category': category,
         'posts': posts,
@@ -182,7 +181,6 @@ def search(request):
         'posts': posts,
         'query': query
     })
-
 
 class LatestPostsFeed(Feed):
     title = "Celebritypharm Blog - Latest Posts"
