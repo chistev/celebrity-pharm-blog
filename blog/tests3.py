@@ -143,3 +143,212 @@ class PostDetailViewTest(TestCase):
         self.assertContains(response, self.post.excerpt)
         self.assertContains(response, self.post.content)
         self.assertContains(response, self.related_post.title)
+
+class SearchViewTest(TestCase):
+    def setUp(self):
+        # Set up test client
+        self.client = Client()
+
+        # Create a category
+        self.category = Category.objects.create(
+            title="Test Category",
+            description="A test category",
+            image="category_images/test.jpg",
+            slug="test-category"
+        )
+
+        # Create published posts for search
+        self.post1 = Post.objects.create(
+            title="Python Programming",
+            excerpt="Learn Python programming basics.",
+            image="post_images/python.jpg",
+            slug="python-programming",
+            category=self.category,
+            content="Content about Python programming.",
+            status="published",
+            created_at=timezone.now()
+        )
+
+        self.post2 = Post.objects.create(
+            title="Django Tutorial",
+            excerpt="A tutorial on Django programming framework.",  # Updated to include "programming"
+            image="post_images/django.jpg",
+            slug="django-tutorial",
+            category=self.category,
+            content="Content about Django framework.",
+            status="published",
+            created_at=timezone.now()
+        )
+
+        self.post3 = Post.objects.create(
+            title="JavaScript Guide",
+            excerpt="This is about JavaScript.",
+            image="post_images/js.jpg",
+            slug="javascript-guide",
+            category=self.category,
+            content="Content about JavaScript.",
+            status="published",
+            created_at=timezone.now()
+        )
+
+        # Create a draft post (should not appear in search)
+        self.draft_post = Post.objects.create(
+            title="Draft Post",
+            excerpt="This is a draft post.",
+            image="post_images/draft.jpg",
+            slug="draft-post",
+            category=self.category,
+            content="Draft content.",
+            status="draft",
+            created_at=timezone.now()
+        )
+
+    def test_search_view_happy_path(self):
+        """Test search with a valid query that matches posts."""
+        url = reverse('search') + '?q=python'
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'blog/search_results.html')
+        self.assertEqual(response.context['query'], 'python')
+        
+        posts = response.context['posts']
+        self.assertIn(self.post1, posts)
+        self.assertNotIn(self.post2, posts)
+        self.assertNotIn(self.post3, posts)
+        self.assertNotIn(self.draft_post, posts)
+        
+        self.assertEqual(len(posts), 1)
+        self.assertContains(response, self.post1.title)
+        self.assertContains(response, self.post1.excerpt)
+        self.assertNotContains(response, self.post2.title)
+        self.assertNotContains(response, self.draft_post.title)
+
+    def test_search_view_multiple_results_with_pagination(self):
+        """Test search with multiple results and pagination."""
+        url = reverse('search') + '?q=programming'
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'blog/search_results.html')
+        self.assertEqual(response.context['query'], 'programming')
+        
+        posts = response.context['posts']
+        self.assertIn(self.post1, posts)
+        self.assertIn(self.post2, posts)  # Now matches due to updated excerpt
+        self.assertNotIn(self.post3, posts)
+        self.assertNotIn(self.draft_post, posts)
+        
+        self.assertTrue(len(posts) <= 4)
+        self.assertContains(response, self.post1.title)
+        self.assertContains(response, self.post2.title)
+
+        url = reverse('search') + '?q=programming&page=2'
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        posts = response.context['posts']
+
+    def test_search_view_unhappy_path_no_results(self):
+        """Test search with a query that matches no posts."""
+        url = reverse('search') + '?q=nonexistent'
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'blog/search_results.html')
+        self.assertEqual(response.context['query'], 'nonexistent')
+        
+        posts = response.context['posts']
+        self.assertEqual(len(posts), 0)
+        self.assertNotContains(response, self.post1.title)
+        self.assertNotContains(response, self.post2.title)
+        self.assertNotContains(response, self.post3.title)
+        self.assertNotContains(response, self.draft_post.title)
+
+    def test_search_view_empty_query(self):
+        """Test search with an empty query string."""
+        url = reverse('search') + '?q='
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'blog/search_results.html')
+        self.assertEqual(response.context['query'], '')
+        
+        posts = response.context['posts']
+        self.assertIn(self.post1, posts)
+        self.assertIn(self.post2, posts)
+        self.assertIn(self.post3, posts)
+        self.assertNotIn(self.draft_post, posts)
+        self.assertEqual(len(posts), 3)
+        self.assertContains(response, self.post1.title)
+        self.assertContains(response, self.post2.title)
+        self.assertContains(response, self.post3.title)
+
+    def test_search_view_no_query_parameter(self):
+        """Test search without a query parameter."""
+        url = reverse('search')
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'blog/search_results.html')
+        self.assertEqual(response.context['query'], '')
+        
+        posts = response.context['posts']
+        self.assertIn(self.post1, posts)
+        self.assertIn(self.post2, posts)
+        self.assertIn(self.post3, posts)
+        self.assertNotIn(self.draft_post, posts)
+        self.assertEqual(len(posts), 3)
+
+    def test_search_view_case_insensitive(self):
+        """Test that search is case-insensitive."""
+        url = reverse('search') + '?q=PYTHON'
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'blog/search_results.html')
+        self.assertEqual(response.context['query'], 'PYTHON')
+        
+        posts = response.context['posts']
+        self.assertIn(self.post1, posts)
+        self.assertNotIn(self.post2, posts)
+        self.assertNotIn(self.post3, posts)
+        self.assertNotIn(self.draft_post, posts)
+        self.assertContains(response, self.post1.title)
+
+    def test_search_view_special_characters(self):
+        """Test search with special characters in query."""
+        url = reverse('search') + '?q=python!!!'
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'blog/search_results.html')
+        self.assertEqual(response.context['query'], 'python!!!')
+        
+        posts = response.context['posts']
+        self.assertIn(self.post1, posts)
+        self.assertNotIn(self.post2, posts)
+        self.assertNotIn(self.post3, posts)
+        self.assertNotIn(self.draft_post, posts)
+        self.assertContains(response, self.post1.title)
+
+    def test_search_view_order_by_created_at(self):
+        """Test that search results are ordered by created_at descending."""
+        newer_post = Post.objects.create(
+            title="Newer Python Post",
+            excerpt="Newer post about Python.",
+            image="post_images/newer.jpg",
+            slug="newer-python-post",
+            category=self.category,
+            content="Newer content about Python.",
+            status="published",
+            created_at=timezone.now() + timezone.timedelta(minutes=10)
+        )
+
+        url = reverse('search') + '?q=python'
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)
+        posts = response.context['posts']
+        
+        self.assertEqual(list(posts)[0], newer_post)
+        self.assertEqual(list(posts)[1], self.post1)

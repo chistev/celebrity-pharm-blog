@@ -1,3 +1,4 @@
+import re
 from django.utils import timezone
 from django.shortcuts import redirect
 from django.conf import settings
@@ -169,17 +170,23 @@ def category_detail(request, slug):
     })
 
 def search(request):
-    query = request.GET.get('q', '')
-    posts = Post.objects.filter(
-        Q(title__icontains=query) | Q(excerpt__icontains=query)
-    )
+    raw_query = request.GET.get('q', '') or ''
+    query = re.sub(r'[^a-zA-Z0-9\s]', '', raw_query)
+    keywords = query.split()
+
+    q_filter = Q()
+    for word in keywords:
+        q_filter |= Q(title__icontains=word) | Q(excerpt__icontains=word) | Q(content__icontains=word)
+
+    posts = Post.objects.filter(q_filter, status='published').order_by('-created_at')
+
     paginator = Paginator(posts, 4)
     page_number = request.GET.get('page')
     posts = paginator.get_page(page_number)
 
     return render(request, 'blog/search_results.html', {
         'posts': posts,
-        'query': query
+        'query': raw_query
     })
 
 class LatestPostsFeed(Feed):

@@ -8,9 +8,9 @@ def send_post_notification(post_title, post_excerpt, post_slug):
         raise ValueError("API key not found. Please set the 'BREVO_API_KEY' environment variable.")
 
     api_url = 'https://api.brevo.com/v3/smtp/email'
-    sender_email = 'stephen@rxjourney.net'
-    sender_name = 'Chistev'
-    reply_to_email = 'chistev12@gmail.com'
+    sender_email = 'unique@celebritypharm.com'
+    sender_name = 'CelebrityPharm'
+    reply_to_email = 'celebritypharm@gmail.com'
     brevo_template_id = 12
 
     subscribers = Subscriber.objects.filter(is_confirmed=True)
