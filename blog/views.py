@@ -110,7 +110,7 @@ class HandleUnsubscribeView(View):
 
         try:
             token = UnsubscribeToken.objects.get(token=token_value)
-        except UnsubscribeToken.DoesNotExist:
+        except (UnsubscribeToken.DoesNotExist, ValidationError):
             return redirect('unsubscribe-status', status='invalid')
 
         if token.is_expired():
