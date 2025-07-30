@@ -8,7 +8,7 @@ from unittest.mock import patch
 
 import time
 
-from blog.models import Subscriber, UnsubscribeToken
+from blog.models import Category, Subscriber, UnsubscribeToken
 
 class ConfirmSubscriptionViewTests(TestCase):
     def setUp(self):
@@ -100,7 +100,6 @@ class HandleUnsubscribeViewTests(TestCase):
             unsubscribed=False
         )
 
-    # === YOUR ORIGINAL TESTS ===
     def test_happy_path_valid_token(self):
         """Test that a valid token processes correctly and does not trigger the 'if not token_value' condition."""
         response = self.client.get(self.url, {"token": str(self.token.token)})
@@ -131,7 +130,6 @@ class HandleUnsubscribeViewTests(TestCase):
         self.token.refresh_from_db()
         self.assertFalse(self.token.unsubscribed)
 
-    # === NEW TESTS I ADDED ===
     def test_unhappy_path_nonexistent_token(self):
         """Test that a non-existent token triggers the DoesNotExist branch."""
         fake_token = uuid.uuid4()  # Token that doesn't exist in DB
@@ -185,3 +183,71 @@ class HandleUnsubscribeViewTests(TestCase):
         self.assertTrue(Subscriber.objects.filter(email=self.email).exists())
         self.token.refresh_from_db()
         self.assertTrue(self.token.unsubscribed)
+
+class CategoriesViewTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.url = reverse("categories")
+        # Create some test categories
+        self.category1 = Category.objects.create(
+            title="Category 1",
+            description="Description for Category 1",
+            slug="category-1",
+            image="category_images/cat1.jpg"
+        )
+        self.category2 = Category.objects.create(
+            title="Category 2",
+            description="Description for Category 2",
+            slug="category-2",
+            image="category_images/cat2.jpg"
+        )
+
+    def test_happy_path_categories_view(self):
+        """Test that the categories view returns all categories and renders the correct template."""
+        response = self.client.get(self.url)
+        
+        # Check status code
+        self.assertEqual(response.status_code, 200)
+        
+        # Check template used
+        self.assertTemplateUsed(response, "blog/categories.html")
+        
+        # Check context contains all categories
+        categories = response.context["categories"]
+        self.assertEqual(categories.count(), 2)
+        self.assertIn(self.category1, categories)
+        self.assertIn(self.category2, categories)
+
+    def test_empty_categories(self):
+        """Test the categories view when there are no categories."""
+        # Delete all categories
+        Category.objects.all().delete()
+        
+        response = self.client.get(self.url)
+        
+        # Check status code
+        self.assertEqual(response.status_code, 200)
+        
+        # Check template used
+        self.assertTemplateUsed(response, "blog/categories.html")
+        
+        # Check context contains empty queryset
+        categories = response.context["categories"]
+        self.assertEqual(categories.count(), 0)
+
+class AboutViewTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.url = reverse("about")
+
+    def test_happy_path_about_view(self):
+        """Test that the about view renders the correct template."""
+        response = self.client.get(self.url)
+
+        # Check status code
+        self.assertEqual(response.status_code, 200)
+
+        # Check template used
+        self.assertTemplateUsed(response, "blog/about.html")
+
+        self.assertFalse('categories' in response.context)

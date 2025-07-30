@@ -147,7 +147,7 @@ def about(request):
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug, status='published')
 
-     # Fetch related posts from the same category, excluding the current post
+    # Fetch related posts from the same category, excluding the current post
     related_posts = Post.objects.filter(category=post.category).exclude(id=post.id)[:3]
 
     subscriber_count = Subscriber.objects.filter(is_confirmed=True).count()

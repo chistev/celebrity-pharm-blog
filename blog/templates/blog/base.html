@@ -125,11 +125,10 @@
     <meta name="twitter:title" content="{{ post.title }}" />
     <meta name="twitter:description"
         content="{{ post.excerpt|default:'Stay updated with the latest posts from Celebritypharm blog.' }}" />
-    <meta name="twitter:image" content="{{ post.image.url|default:'/static/images/default-image.jpg' }}" />
-    <meta name="twitter:site" content="@Celebritypharm" />
-    <meta name="twitter:creator" content="@Celebritypharm" />
+    <meta name="twitter:image" content="{{ post.image.url|default:'/static/images/celeb_pharm.png' }}" />
+    <meta name="twitter:site" content="@celebritypharm" />
+    <meta name="twitter:creator" content="@celebritypharm" />
     {% endblock %}
-
 </head>
 
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
@@ -174,7 +173,6 @@
                 </form>
             </div>
 
-
             <!-- Theme Toggle Button -->
             <button id="theme-toggle" class="focus:outline-none">
                 <svg id="theme-icon" xmlns="http://www.w3.org/2000/svg"
@@ -190,7 +188,6 @@
                 <img src="{% static 'images/celeb_pharm.png' %}" alt="Profile"
                     class="w-8 h-8 rounded-full object-cover hover:ring-2 hover:ring-blue-500 transition">
             </a>
-
         </div>
     </nav>
 
@@ -207,12 +204,12 @@
             <a href="{% url 'about' %}" class="block md:hidden hover:text-black dark:hover:text-white">About</a>
             <a href="{% url 'categories' %}"
                 class="block md:hidden hover:text-black dark:hover:text-white">Categories</a>
-
             <a href="{% url 'rss_feed' %}" class="hover:text-black dark:hover:text-white">RSS Feed</a>
         </div>
 
         <div class="flex justify-center space-x-4 mb-4">
-            <a href="mailto:example@clarathompson.com">
+            <!-- Email -->
+            <a href="mailto:celebritypharm@gmail.com" class="hover:text-black dark:hover:text-white">
                 <svg xmlns="http://www.w3.org/2000/svg"
                     class="w-5 h-5 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white"
                     fill="currentColor" viewBox="0 0 24 24">
@@ -220,15 +217,19 @@
                         d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
                 </svg>
             </a>
-            <a href="https://twitter.com/clarathompson">
+            <!-- X -->
+            <a href="https://x.com/celebritypharm?s=21&t=MYzvnrPhvSS_rMyOGeHjgg" target="_blank" rel="noopener noreferrer"
+                class="hover:text-black dark:hover:text-white">
                 <svg xmlns="http://www.w3.org/2000/svg"
                     class="w-5 h-5 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white"
                     fill="currentColor" viewBox="0 0 24 24">
                     <path
-                        d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-2.717 0-4.92 2.203-4.92 4.917 0 .386.045.762.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.733-.666 1.585-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.030-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.396 0-.788-.023-1.175-.068 2.187 1.405 4.788 2.224 7.561 2.224 9.054 0 14.01-7.503 14.01-14.01 0-.213-.005-.426-.014-.637.962-.695 1.8-1.562 2.457-2.549z" />
+                        d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482A13.87 13.87 0 011.671 3.149a4.922 4.922 0 001.523 6.574 4.903 4.903 0 01-2.229-.616v.061a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 14-7.496 14-14V5.649c.975-.66 1.82-1.486 2.488-2.429l-.001-.001z" />
                 </svg>
             </a>
-            <a href="https://facebook.com/clarathompson">
+            <!-- Facebook -->
+            <a href="https://www.facebook.com/pharm.unique" target="_blank" rel="noopener noreferrer"
+                class="hover:text-black dark:hover:text-white">
                 <svg xmlns="http://www.w3.org/2000/svg"
                     class="w-5 h-5 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white"
                     fill="currentColor" viewBox="0 0 24 24">
@@ -236,12 +237,44 @@
                         d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.732 0 1.325-.593 1.325-1.325V1.325C24 .593 23.407 0 22.675 0z" />
                 </svg>
             </a>
-            <a href="https://linkedin.com/in/clarathompson">
+            <!-- LinkedIn -->
+            <a href="https://www.linkedin.com/in/unique-chukwu-252732239?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank" rel="noopener noreferrer"
+                class="hover:text-black dark:hover:text-white">
                 <svg xmlns="http://www.w3.org/2000/svg"
                     class="w-5 h-5 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white"
                     fill="currentColor" viewBox="0 0 24 24">
                     <path
                         d="M19 0H5C2.239 0 0 2.239 0 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5V5c0-2.761-2.238-5-5-5zM7.188 17.582h-2.375V9.001h2.375v8.581zM5.781 7.781c-1.109 0-2.008-.899-2.008-2.008s.899-2.008 2.008-2.008 2.008.899 2.008 2.008-.899 2.008-2.008 2.008zM18 17.582h-2.313v-4.586c0-1.094-.021-2.5-1.521-2.5-1.521 0-1.753 1.189-1.753 2.415v4.671h-2.312V9.001h2.219v1.173h.031c.308-.585 1.059-1.203 2.177-1.203 2.329 0 2.758 1.533 2.758 3.527v5.084z" />
+                </svg>
+            </a>
+            <!-- YouTube -->
+            <a href="https://www.youtube.com/@celebritypharm" target="_blank" rel="noopener noreferrer"
+                class="hover:text-black dark:hover:text-white">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="w-5 h-5 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white"
+                    fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                        d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.377.505 9.377.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM10.079 15.555V8.445l5.975 3.555-5.975 3.555z" />
+                </svg>
+            </a>
+            <!-- Instagram -->
+            <a href="https://www.instagram.com/celebritypharm?igsh=M3Juc2p1NmQyOGw%3D&utm_source=qr" target="_blank" rel="noopener noreferrer"
+                class="hover:text-black dark:hover:text-white">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="w-5 h-5 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white"
+                    fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                        d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63a5.948 5.948 0 00-2.165 1.41A5.948 5.948 0 00.63 4.14C.333 4.905.132 5.775.072 7.053.015 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.278.261 2.148.558 2.913a5.948 5.948 0 001.41 2.165 5.948 5.948 0 002.165 1.41c.765.297 1.635.498 2.913.558C8.333 23.985 8.74 24 12 24s3.667-.015 4.947-.072c1.278-.06 2.148-.261 2.913-.558a5.948 5.948 0 002.165-1.41 5.948 5.948 0 001.41-2.165c.297-.765.498-1.635.558-2.913C23.985 15.667 24 15.26 24 12s-.015-3.667-.072-4.947c-.06-1.278-.261-2.148-.558-2.913a5.948 5.948 0 00-1.41-2.165 5.948 5.948 0 00-2.165-1.41c-.765-.297-1.635-.498-2.913-.558C15.667.015 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.421.419.679.819.896 1.381.166.422.36 1.057.415 2.227.055 1.265.071 1.647.071 4.85s-.016 3.585-.071 4.85c-.055 1.17-.249 1.805-.415 2.227a3.827 3.827 0 01-.896 1.382c-.419.421-.819.679-1.381.896-.422.166-1.057.36-2.227.415-1.265.055-1.647.071-4.85.071s-3.585-.016-4.85-.071c-1.17-.055-1.805-.249-2.227-.415a3.827 3.827 0 01-1.382-.896c-.421-.419-.679-.819-.896-1.381-.166-.422-.36-1.057-.415-2.227-.055-1.265-.071-1.647-.071-4.85s.016-3.585.071-4.85c.055-1.17.249-1.805.415-2.227a3.827 3.827 0 01.896-1.382c.419-.421.819-.679 1.381-.896.422-.166 1.057-.36 2.227-.415 1.265-.055 1.647-.071 4.85-.071zm0 3.892a5.948 5.948 0 100 11.896 5.948 5.948 0 000-11.896zm0 9.824a3.876 3.876 0 110-7.752 3.876 3.876 0 010 7.752zm6.197-9.08a1.39 1.39 0 11-2.78 0 1.39 1.39 0 012.78 0z" />
+                </svg>
+            </a>
+            <!-- WhatsApp -->
+            <a href="https://whatsapp.com/channel/0029VaoohgPC6Zvckt1tPR1q" target="_blank" rel="noopener noreferrer"
+                class="hover:text-black dark:hover:text-white">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                    class="w-5 h-5 text-gray-600 dark:text-gray-300 hover:text-black dark:hover:text-white"
+                    fill="currentColor" viewBox="0 0 16 16">
+                    <path
+                        d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232" />
                 </svg>
             </a>
         </div>
