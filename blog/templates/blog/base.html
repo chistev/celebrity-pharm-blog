@@ -8,12 +8,7 @@
     <title>{% block title %}Celebritypharm{% endblock %}</title>
 
     <link rel="icon" href="{% static 'images/celeb_pharm.png' %}" type="image/png" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class'
-        }
-    </script>
+    <link href="{% static 'css/output.css' %}" rel="stylesheet">
     <style>
         /* Offset anchor to account for fixed navbar */
         #post-grid-anchor {
